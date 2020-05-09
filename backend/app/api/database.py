@@ -18,13 +18,14 @@ ma = Marshmallow(application)
 
 class Product(db.Model):
     __tablename__ = 'product'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.String(255), primary_key=True)
     name = db.Column(db.String(25), unique=True)
     location = db.Column(db.String(15))
     streetname = db.Column(db.String(15))
     status = db.Column(db.String(10))
 
-    def __init__(self, name, location, streetname, status):
+    def __init__(self, id, name, location, streetname, status):
+        self.id = id
         self.name = name
         self.location = location
         self.streetname = streetname

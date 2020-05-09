@@ -31,11 +31,11 @@ export default {
               this.patientdata = res.data;
             } else if (res.status == 202) {
               this.error = "";
-              let tmpList = [];
+              let _tmpList = [];
               for (let i = 0; i < res.data.length; i++) {
-                tmpList.push(JSON.parse(res.data[i]));
+                _tmpList.push(JSON.parse(res.data[i]));
               }
-              this.patientdata = tmpList;
+              this.patientdata = _tmpList;
             }
           } catch (e) {
             console.log(e);
@@ -46,13 +46,39 @@ export default {
             (this.error = "umm! looks like we have a problem getting records.")
         );
     },
-    deleteRecord(id) {
+    deleteRecord(details) {
       axios
-        .delete(`http://192.168.99.100/api/patients/${id}`)
+        .delete(`http://192.168.99.100/api/patients/${details.name}`, {
+          data: {
+            name: details.name,
+            id: details.id
+          }
+        })
         .then(
-          (this.patientdata = this.patientdata.filter(
-            patientdata => patientdata.id !== id
-          ))
+          res => {
+            try {
+              // this.patientdata = this.patientdata.filter(
+              //   patientdata => patientdata.id !== id
+              // );
+              if (res.status == 200) {
+                this.patientdata = this.patientdata.filter(
+                  patientdata => patientdata.name !== details.name
+                );
+                this.error = res.data.msg;
+              } else {
+                this.error = "Something Went wrong, we will be right back";
+                console.log("Error");
+              }
+            } catch (e) {
+              this.error = "Something Went wrong, we will be right back";
+              console.log(e);
+            }
+          }
+
+          // (this.patientdata = this.patientdata.filter(
+          //   patientdata => patientdata.id !== id
+          // ))
+          // console.log(this.patientdata)
         )
         .catch(() => (this.error = "Error deleting record, please try later"));
     }

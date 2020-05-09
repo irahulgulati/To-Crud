@@ -15,7 +15,7 @@
           <td>{{patient.location}}</td>
           <td>{{patient.streetname}}</td>
           <td>{{patient.status}}</td>
-          <button @click="$emit('delrecord', patient.id)" class="del">x</button>
+          <button @click="$emit('delrecord', {'name':patient.name,'id':patient.id})" class="del">x</button>
         </tr>
       </tbody>
       <tbody v-else>

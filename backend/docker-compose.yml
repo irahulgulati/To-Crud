@@ -30,3 +30,8 @@ services:
         restart: always
         ports: 
             - '80:80'
+    cronserver:
+        build: ./cronjob
+        depends_on: 
+            - app
+            - nginx
